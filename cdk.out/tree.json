@@ -1,0 +1,2237 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "BedrockAgentStack": {
+        "id": "BedrockAgentStack",
+        "path": "BedrockAgentStack",
+        "children": {
+          "AgentKBRole": {
+            "id": "AgentKBRole",
+            "path": "BedrockAgentStack/AgentKBRole",
+            "children": {
+              "ImportAgentKBRole": {
+                "id": "ImportAgentKBRole",
+                "path": "BedrockAgentStack/AgentKBRole/ImportAgentKBRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/AgentKBRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "bedrock.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.147.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "BedrockAgentStack/AgentKBRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/AgentKBRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:GetObject*",
+                                "s3:GetBucket*",
+                                "s3:List*"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "kbs3bucketCA4FC663",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "kbs3bucketCA4FC663",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": "aoss:APIAccessAll",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "AgentCollection",
+                                  "Arn"
+                                ]
+                              },
+                              "Sid": "OpenSearchServerlessAPIAccessAllStatement"
+                            },
+                            {
+                              "Action": "bedrock:InvokeModel",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":bedrock:",
+                                    {
+                                      "Ref": "AWS::Region"
+                                    },
+                                    "::foundation-model/amazon.titan-embed-text-v2:0"
+                                  ]
+                                ]
+                              },
+                              "Sid": "BedrockInvokeModelStatement"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "AgentKBRoleDefaultPolicyF700649F",
+                        "roles": [
+                          {
+                            "Ref": "AgentKBRole3A39DF16"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.147.0"
+            }
+          },
+          "AgentRole": {
+            "id": "AgentRole",
+            "path": "BedrockAgentStack/AgentRole",
+            "children": {
+              "ImportAgentRole": {
+                "id": "ImportAgentRole",
+                "path": "BedrockAgentStack/AgentRole/ImportAgentRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/AgentRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "bedrock.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "roleName": "AmazonBedrockExecutionRoleForAgents-HotelGenAI"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.147.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "BedrockAgentStack/AgentRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/AgentRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "bedrock:InvokeModel",
+                                "lambda:InvokeFunction"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":bedrock:",
+                                    {
+                                      "Ref": "AWS::Region"
+                                    },
+                                    "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+                                  ]
+                                ]
+                              },
+                              "Sid": "InvokeBedrockLambda"
+                            },
+                            {
+                              "Action": "bedrock:Retrieve",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "KBforAgent",
+                                  "KnowledgeBaseArn"
+                                ]
+                              },
+                              "Sid": "RetrieveKBStatement"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "AgentRoleDefaultPolicy1027F5D2",
+                        "roles": [
+                          {
+                            "Ref": "AgentRoleF4A42D6B"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.147.0"
+            }
+          },
+          "IndexCreatorLambdaRole": {
+            "id": "IndexCreatorLambdaRole",
+            "path": "BedrockAgentStack/IndexCreatorLambdaRole",
+            "children": {
+              "ImportIndexCreatorLambdaRole": {
+                "id": "ImportIndexCreatorLambdaRole",
+                "path": "BedrockAgentStack/IndexCreatorLambdaRole/ImportIndexCreatorLambdaRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/IndexCreatorLambdaRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.147.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "BedrockAgentStack/IndexCreatorLambdaRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/IndexCreatorLambdaRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "aoss:APIAccessAll",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "AgentCollection",
+                                  "Arn"
+                                ]
+                              },
+                              "Sid": "IndexCreationLambdaAccessPolicy"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "IndexCreatorLambdaRoleDefaultPolicyAD0F523B",
+                        "roles": [
+                          {
+                            "Ref": "IndexCreatorLambdaRoleBFE95E57"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.147.0"
+            }
+          },
+          "KBSyncLambdaRole": {
+            "id": "KBSyncLambdaRole",
+            "path": "BedrockAgentStack/KBSyncLambdaRole",
+            "children": {
+              "ImportKBSyncLambdaRole": {
+                "id": "ImportKBSyncLambdaRole",
+                "path": "BedrockAgentStack/KBSyncLambdaRole/ImportKBSyncLambdaRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/KBSyncLambdaRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.147.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "BedrockAgentStack/KBSyncLambdaRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/KBSyncLambdaRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "bedrock:StartIngestionJob",
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "KBforAgent",
+                                  "KnowledgeBaseArn"
+                                ]
+                              },
+                              "Sid": "SyncKBPolicy"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "KBSyncLambdaRoleDefaultPolicyB991B19A",
+                        "roles": [
+                          {
+                            "Ref": "KBSyncLambdaRole2E732100"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.147.0"
+            }
+          },
+          "kbs3bucket": {
+            "id": "kbs3bucket",
+            "path": "BedrockAgentStack/kbs3bucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/kbs3bucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "booking-agenteu-west-3-928902064673",
+                    "tags": [
+                      {
+                        "key": "aws-cdk:auto-delete-objects",
+                        "value": "true"
+                      },
+                      {
+                        "key": "aws-cdk:cr-owned:7aa9081b",
+                        "value": "true"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.147.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "BedrockAgentStack/kbs3bucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/kbs3bucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "kbs3bucketCA4FC663"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:PutBucketPolicy",
+                                "s3:GetBucket*",
+                                "s3:List*",
+                                "s3:DeleteObject*"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": {
+                                  "Fn::GetAtt": [
+                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                                    "Arn"
+                                  ]
+                                }
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "kbs3bucketCA4FC663",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "kbs3bucketCA4FC663",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.147.0"
+                }
+              },
+              "AutoDeleteObjectsCustomResource": {
+                "id": "AutoDeleteObjectsCustomResource",
+                "path": "BedrockAgentStack/kbs3bucket/AutoDeleteObjectsCustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "BedrockAgentStack/kbs3bucket/AutoDeleteObjectsCustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.147.0"
+                }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "BedrockAgentStack/kbs3bucket/Notifications",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/kbs3bucket/Notifications/Resource",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.4.2"
+                }
+              },
+              "AllowBucketNotificationsToBedrockAgentStackSyncKB47050945": {
+                "id": "AllowBucketNotificationsToBedrockAgentStackSyncKB47050945",
+                "path": "BedrockAgentStack/kbs3bucket/AllowBucketNotificationsToBedrockAgentStackSyncKB47050945",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "SyncKB431F5769",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "s3.amazonaws.com",
+                    "sourceAccount": {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "kbs3bucketCA4FC663",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.147.0"
+            }
+          },
+          "LatestNodeRuntimeMap": {
+            "id": "LatestNodeRuntimeMap",
+            "path": "BedrockAgentStack/LatestNodeRuntimeMap",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnMapping",
+              "version": "2.147.0"
+            }
+          },
+          "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
+            "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "path": "BedrockAgentStack/Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "children": {
+              "Staging": {
+                "id": "Staging",
+                "path": "BedrockAgentStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.AssetStaging",
+                  "version": "2.147.0"
+                }
+              },
+              "Role": {
+                "id": "Role",
+                "path": "BedrockAgentStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.147.0"
+                }
+              },
+              "Handler": {
+                "id": "Handler",
+                "path": "BedrockAgentStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
+              "version": "2.147.0"
+            }
+          },
+          "BucketNotificationsHandler050a0587b7544547bf325f094a3db834": {
+            "id": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834",
+            "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834",
+            "children": {
+              "Role": {
+                "id": "Role",
+                "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role",
+                "children": {
+                  "ImportRole": {
+                    "id": "ImportRole",
+                    "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/ImportRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "s3:PutBucketNotification",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36",
+                            "roles": [
+                              {
+                                "Ref": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.147.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "Deploycontent": {
+            "id": "Deploycontent",
+            "path": "BedrockAgentStack/Deploycontent",
+            "children": {
+              "AwsCliLayer": {
+                "id": "AwsCliLayer",
+                "path": "BedrockAgentStack/Deploycontent/AwsCliLayer",
+                "children": {
+                  "Code": {
+                    "id": "Code",
+                    "path": "BedrockAgentStack/Deploycontent/AwsCliLayer/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "BedrockAgentStack/Deploycontent/AwsCliLayer/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.147.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "BedrockAgentStack/Deploycontent/AwsCliLayer/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.147.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/Deploycontent/AwsCliLayer/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                      "aws:cdk:cloudformation:props": {
+                        "content": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "3ec63c94c6b53a6997f63c3f6e780c0c4da7e541c316938fc6681d96f76b30d6.zip"
+                        },
+                        "description": "/opt/awscli/aws"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+                  "version": "2.147.0"
+                }
+              },
+              "CustomResourceHandler": {
+                "id": "CustomResourceHandler",
+                "path": "BedrockAgentStack/Deploycontent/CustomResourceHandler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.SingletonFunction",
+                  "version": "2.147.0"
+                }
+              },
+              "Asset1": {
+                "id": "Asset1",
+                "path": "BedrockAgentStack/Deploycontent/Asset1",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/Deploycontent/Asset1/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/Deploycontent/Asset1/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.147.0"
+                }
+              },
+              "CustomResource": {
+                "id": "CustomResource",
+                "path": "BedrockAgentStack/Deploycontent/CustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "BedrockAgentStack/Deploycontent/CustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+              "version": "2.147.0"
+            }
+          },
+          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {
+            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject",
+                                    "s3:PutObjectLegalHold",
+                                    "s3:PutObjectRetention",
+                                    "s3:PutObjectTagging",
+                                    "s3:PutObjectVersionTagging",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "kbs3bucketCA4FC663",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "kbs3bucketCA4FC663",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+                            "roles": [
+                              {
+                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.147.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.147.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "2d56e153cac88d3e0c2f842e8e6f6783b8725bf91f95e0673b4725448a56e96d.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "DeploycontentAwsCliLayer730F0CA6"
+                      }
+                    ],
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.9",
+                    "timeout": 900
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.147.0"
+            }
+          },
+          "AgentCollection": {
+            "id": "AgentCollection",
+            "path": "BedrockAgentStack/AgentCollection",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::OpenSearchServerless::Collection",
+              "aws:cdk:cloudformation:props": {
+                "description": "Restaurant assistant Embeddings Store",
+                "name": "assistant-collection",
+                "standbyReplicas": "DISABLED",
+                "type": "VECTORSEARCH"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_opensearchserverless.CfnCollection",
+              "version": "2.147.0"
+            }
+          },
+          "CollectionEncryptionPolicy": {
+            "id": "CollectionEncryptionPolicy",
+            "path": "BedrockAgentStack/CollectionEncryptionPolicy",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::OpenSearchServerless::SecurityPolicy",
+              "aws:cdk:cloudformation:props": {
+                "name": "assistant-col-encryption-policy",
+                "policy": "{\"Rules\":[{\"ResourceType\":\"collection\",\"Resource\":[\"collection/assistant-collection\"]}],\"AWSOwnedKey\":true}",
+                "type": "encryption"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_opensearchserverless.CfnSecurityPolicy",
+              "version": "2.147.0"
+            }
+          },
+          "CollectionNetworkPolicy": {
+            "id": "CollectionNetworkPolicy",
+            "path": "BedrockAgentStack/CollectionNetworkPolicy",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::OpenSearchServerless::SecurityPolicy",
+              "aws:cdk:cloudformation:props": {
+                "name": "assistant-col-network-policy",
+                "policy": "[{\"Rules\":[{\"Resource\":[\"collection/assistant-collection\"],\"ResourceType\":\"dashboard\"},{\"Resource\":[\"collection/assistant-collection\"],\"ResourceType\":\"collection\"}],\"AllowFromPublic\":true}]",
+                "type": "network"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_opensearchserverless.CfnSecurityPolicy",
+              "version": "2.147.0"
+            }
+          },
+          "LambdaLayer": {
+            "id": "LambdaLayer",
+            "path": "BedrockAgentStack/LambdaLayer",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/LambdaLayer/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/LambdaLayer/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/LambdaLayer/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/LambdaLayer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                  "aws:cdk:cloudformation:props": {
+                    "compatibleRuntimes": [
+                      "python3.12"
+                    ],
+                    "content": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "eb4d018d02a7fe87adda738682fce556db06f5f7d06dc386d37ecdd9541f613a.zip"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.LayerVersion",
+              "version": "2.147.0"
+            }
+          },
+          "CollectionIndexCreator": {
+            "id": "CollectionIndexCreator",
+            "path": "BedrockAgentStack/CollectionIndexCreator",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/CollectionIndexCreator/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/CollectionIndexCreator/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/CollectionIndexCreator/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/CollectionIndexCreator/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "b77f00ba803734f136124da6865b93d83b9087d36d5e49aca31f81fa3f1b5af3.zip"
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "LambdaLayerCA94B5F7"
+                      }
+                    ],
+                    "role": {
+                      "Fn::GetAtt": [
+                        "IndexCreatorLambdaRoleBFE95E57",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.12",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.147.0"
+            }
+          },
+          "CustomResourceIndexCreator": {
+            "id": "CustomResourceIndexCreator",
+            "path": "BedrockAgentStack/CustomResourceIndexCreator",
+            "children": {
+              "framework-onEvent": {
+                "id": "framework-onEvent",
+                "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.147.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.147.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "lambda:InvokeFunction",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "CollectionIndexCreatorB4D84E58",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "CollectionIndexCreatorB4D84E58",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              ":*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "CustomResourceIndexCreatorframeworkonEventServiceRoleDefaultPolicy27BF71A3",
+                                "roles": [
+                                  {
+                                    "Ref": "CustomResourceIndexCreatorframeworkonEventServiceRole337BA9A4"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.147.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.147.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.147.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.147.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/CustomResourceIndexCreator/framework-onEvent/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "3542be390685e0c8353d92ccb5796d343cd93ca946b6b0de798004206a199adc.zip"
+                        },
+                        "description": "AWS CDK resource provider framework - onEvent (BedrockAgentStack/CustomResourceIndexCreator)",
+                        "environment": {
+                          "variables": {
+                            "USER_ON_EVENT_FUNCTION_ARN": {
+                              "Fn::GetAtt": [
+                                "CollectionIndexCreatorB4D84E58",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
+                        "handler": "framework.onEvent",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "CustomResourceIndexCreatorframeworkonEventServiceRole337BA9A4",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": {
+                          "Fn::FindInMap": [
+                            "LatestNodeRuntimeMap",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            "value"
+                          ]
+                        },
+                        "timeout": 900
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.custom_resources.Provider",
+              "version": "2.147.0"
+            }
+          },
+          "CustomCollectionIndexCreator": {
+            "id": "CustomCollectionIndexCreator",
+            "path": "BedrockAgentStack/CustomCollectionIndexCreator",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "BedrockAgentStack/CustomCollectionIndexCreator/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResource",
+              "version": "2.147.0"
+            }
+          },
+          "DataAccessPolicy": {
+            "id": "DataAccessPolicy",
+            "path": "BedrockAgentStack/DataAccessPolicy",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::OpenSearchServerless::AccessPolicy",
+              "aws:cdk:cloudformation:props": {
+                "name": "assistant-col-access-policy",
+                "policy": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "[{\"Rules\":[{\"Resource\":[\"collection/assistant-collection\"],\"Permission\":[\"aoss:CreateCollectionItems\",\"aoss:DeleteCollectionItems\",\"aoss:UpdateCollectionItems\",\"aoss:DescribeCollectionItems\"],\"ResourceType\":\"collection\"},{\"Resource\":[\"index/assistant-collection/*\"],\"Permission\":[\"aoss:CreateIndex\",\"aoss:DeleteIndex\",\"aoss:UpdateIndex\",\"aoss:DescribeIndex\",\"aoss:ReadDocument\",\"aoss:WriteDocument\"],\"ResourceType\":\"index\"}],\"Principal\":[\"",
+                      {
+                        "Fn::GetAtt": [
+                          "AgentKBRole3A39DF16",
+                          "Arn"
+                        ]
+                      },
+                      "\",\"",
+                      {
+                        "Fn::GetAtt": [
+                          "IndexCreatorLambdaRoleBFE95E57",
+                          "Arn"
+                        ]
+                      },
+                      "\"],\"Description\":\"Agent data policy\"}]"
+                    ]
+                  ]
+                },
+                "type": "data"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_opensearchserverless.CfnAccessPolicy",
+              "version": "2.147.0"
+            }
+          },
+          "KBforAgent": {
+            "id": "KBforAgent",
+            "path": "BedrockAgentStack/KBforAgent",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Bedrock::KnowledgeBase",
+              "aws:cdk:cloudformation:props": {
+                "description": "Knowledge Base containing the restaurant menu's collection",
+                "knowledgeBaseConfiguration": {
+                  "type": "VECTOR",
+                  "vectorKnowledgeBaseConfiguration": {
+                    "embeddingModelArn": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:",
+                          {
+                            "Ref": "AWS::Partition"
+                          },
+                          ":bedrock:",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          "::foundation-model/amazon.titan-embed-text-v2:0"
+                        ]
+                      ]
+                    }
+                  }
+                },
+                "name": "booking-agent-kb",
+                "roleArn": {
+                  "Fn::GetAtt": [
+                    "AgentKBRole3A39DF16",
+                    "Arn"
+                  ]
+                },
+                "storageConfiguration": {
+                  "type": "OPENSEARCH_SERVERLESS",
+                  "opensearchServerlessConfiguration": {
+                    "collectionArn": {
+                      "Fn::GetAtt": [
+                        "AgentCollection",
+                        "Arn"
+                      ]
+                    },
+                    "vectorIndexName": "bedrock-knowledge-base-default-index",
+                    "fieldMapping": {
+                      "metadataField": "AMAZON_BEDROCK_METADATA",
+                      "textField": "AMAZON_BEDROCK_TEXT_CHUNK",
+                      "vectorField": "bedrock-knowledge-base-default-vector"
+                    }
+                  }
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_bedrock.CfnKnowledgeBase",
+              "version": "2.147.0"
+            }
+          },
+          "kb-datasource-id": {
+            "id": "kb-datasource-id",
+            "path": "BedrockAgentStack/kb-datasource-id",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Bedrock::DataSource",
+              "aws:cdk:cloudformation:props": {
+                "dataDeletionPolicy": "RETAIN",
+                "dataSourceConfiguration": {
+                  "s3Configuration": {
+                    "bucketArn": {
+                      "Fn::GetAtt": [
+                        "kbs3bucketCA4FC663",
+                        "Arn"
+                      ]
+                    }
+                  },
+                  "type": "S3"
+                },
+                "knowledgeBaseId": {
+                  "Fn::GetAtt": [
+                    "KBforAgent",
+                    "KnowledgeBaseId"
+                  ]
+                },
+                "name": "restaurant-menu"
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_bedrock.CfnDataSource",
+              "version": "2.147.0"
+            }
+          },
+          "SyncKB": {
+            "id": "SyncKB",
+            "path": "BedrockAgentStack/SyncKB",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/SyncKB/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/SyncKB/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/SyncKB/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/SyncKB/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "3b4c2f91a64227480c628576de243d880facee39ff7670842ea4fba9161d4c45.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "KNOWLEDGE_BASE_ID": {
+                          "Fn::GetAtt": [
+                            "KBforAgent",
+                            "KnowledgeBaseId"
+                          ]
+                        },
+                        "DATA_SOURCE_ID": {
+                          "Fn::GetAtt": [
+                            "kbdatasourceid",
+                            "DataSourceId"
+                          ]
+                        }
+                      }
+                    },
+                    "handler": "lambda_function.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "KBSyncLambdaRole2E732100",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.12",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.147.0"
+            }
+          },
+          "restaurant-reservation-table": {
+            "id": "restaurant-reservation-table",
+            "path": "BedrockAgentStack/restaurant-reservation-table",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/restaurant-reservation-table/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "booking_id",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "booking_id",
+                        "keyType": "HASH"
+                      }
+                    ],
+                    "tableName": "restaurant_bookings"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.147.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "BedrockAgentStack/restaurant-reservation-table/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.147.0"
+            }
+          },
+          "BedrockAgentActionGroupExecutor": {
+            "id": "BedrockAgentActionGroupExecutor",
+            "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:GetItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:DeleteItem"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "restaurantreservationtable709DC3C4",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "Sid": "UpdateDynamoDB"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "BedrockAgentActionGroupExecutorServiceRoleDefaultPolicy6BF05C7A",
+                            "roles": [
+                              {
+                                "Ref": "BedrockAgentActionGroupExecutorServiceRole0D207E9B"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.147.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.147.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.147.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.147.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.147.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/BedrockAgentActionGroupExecutor/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "04c84cf7760f5631b827a106eb29f8f9425ba6c52c6628e83c55349fcb92c631.zip"
+                    },
+                    "handler": "lambda_function.lambda_handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "BedrockAgentActionGroupExecutorServiceRole0D207E9B",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.12",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.147.0"
+            }
+          },
+          "CfnAgent": {
+            "id": "CfnAgent",
+            "path": "BedrockAgentStack/CfnAgent",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Bedrock::Agent",
+              "aws:cdk:cloudformation:props": {
+                "actionGroups": [
+                  {
+                    "actionGroupName": "TableBookingsActionGroup",
+                    "actionGroupExecutor": {
+                      "lambda": {
+                        "Fn::GetAtt": [
+                          "BedrockAgentActionGroupExecutor29707F0B",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "description": "Actions for getting table booking information, create a new booking or delete an existing booking",
+                    "functionSchema": {
+                      "functions": [
+                        {
+                          "name": "get_booking_details",
+                          "description": "Retrieve details of a restaurant booking",
+                          "parameters": {
+                            "booking_id": {
+                              "type": "string",
+                              "description": "The ID of the booking to retrieve",
+                              "required": true
+                            }
+                          }
+                        },
+                        {
+                          "name": "create_booking",
+                          "description": "Create a new restaurant booking",
+                          "parameters": {
+                            "date": {
+                              "type": "string",
+                              "description": "The date of the booking",
+                              "required": true
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "The name of the booking",
+                              "required": true
+                            },
+                            "hour": {
+                              "type": "string",
+                              "description": "The hour of the booking",
+                              "required": true
+                            },
+                            "num_guests": {
+                              "type": "integer",
+                              "description": "The number of guests in the booking",
+                              "required": true
+                            }
+                          }
+                        },
+                        {
+                          "name": "delete_booking",
+                          "description": "Delete a restaurant booking",
+                          "parameters": {
+                            "booking_id": {
+                              "type": "string",
+                              "description": "The ID of the booking to delete",
+                              "required": true
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "agentName": "booking-agent",
+                "agentResourceRoleArn": {
+                  "Fn::GetAtt": [
+                    "AgentRoleF4A42D6B",
+                    "Arn"
+                  ]
+                },
+                "autoPrepare": true,
+                "description": "Agent in charge of a restaurants table bookings",
+                "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
+                "idleSessionTtlInSeconds": 1800,
+                "instruction": "You are a restaurant agent, helping clients retrieve information from their booking, create a new booking or delete an existing booking",
+                "knowledgeBases": [
+                  {
+                    "description": "Knowledge Base containing the restaurant menu's collection",
+                    "knowledgeBaseId": {
+                      "Fn::GetAtt": [
+                        "KBforAgent",
+                        "KnowledgeBaseId"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_bedrock.CfnAgent",
+              "version": "2.147.0"
+            }
+          },
+          "MyCfnAgentAlias": {
+            "id": "MyCfnAgentAlias",
+            "path": "BedrockAgentStack/MyCfnAgentAlias",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Bedrock::AgentAlias",
+              "aws:cdk:cloudformation:props": {
+                "agentAliasName": "booking-agent-alias",
+                "agentId": {
+                  "Fn::GetAtt": [
+                    "CfnAgent",
+                    "AgentId"
+                  ]
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_bedrock.CfnAgentAlias",
+              "version": "2.147.0"
+            }
+          },
+          "BedrockInvocationPermission": {
+            "id": "BedrockInvocationPermission",
+            "path": "BedrockAgentStack/BedrockInvocationPermission",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+              "aws:cdk:cloudformation:props": {
+                "action": "lambda:InvokeFunction",
+                "functionName": {
+                  "Ref": "BedrockAgentActionGroupExecutor29707F0B"
+                },
+                "principal": "bedrock.amazonaws.com",
+                "sourceArn": {
+                  "Fn::GetAtt": [
+                    "CfnAgent",
+                    "AgentArn"
+                  ]
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+              "version": "2.147.0"
+            }
+          },
+          "S3_bucket": {
+            "id": "S3_bucket",
+            "path": "BedrockAgentStack/S3_bucket",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.147.0"
+            }
+          },
+          "Datasource_id": {
+            "id": "Datasource_id",
+            "path": "BedrockAgentStack/Datasource_id",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.147.0"
+            }
+          },
+          "Knowedgebase_name": {
+            "id": "Knowedgebase_name",
+            "path": "BedrockAgentStack/Knowedgebase_name",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.147.0"
+            }
+          },
+          "Knowedgebase_id": {
+            "id": "Knowedgebase_id",
+            "path": "BedrockAgentStack/Knowedgebase_id",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.147.0"
+            }
+          },
+          "Agent_name": {
+            "id": "Agent_name",
+            "path": "BedrockAgentStack/Agent_name",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.147.0"
+            }
+          },
+          "Agent_id": {
+            "id": "Agent_id",
+            "path": "BedrockAgentStack/Agent_id",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.147.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "BedrockAgentStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "BedrockAgentStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.147.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "BedrockAgentStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.147.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "BedrockAgentStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.147.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "BedrockAgentStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.147.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.147.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.4.2"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.147.0"
+    }
+  }
+}
