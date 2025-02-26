@@ -1,0 +1,1 @@
+# Bedrock_mono_agent_template
